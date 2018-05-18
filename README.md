@@ -28,6 +28,22 @@
 
 -------------------
 
+### 运行指南
+
+* 购买并下载酷Q-Pro（免费版酷Q不支持此插件）。
+
+* 下载本项目的CoolQ-DIR目录下所有内容，并移动/覆盖/合并这些内容到酷Q-Pro根目录
+
+* 找到freepats.zip文件，解压
+
+* 找到timiditydrv.zip文件，解压
+
+* 下载[32位JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)（64位JRE不支持酷Q），放到app\/com.sobte.cqp.jcq\/conf\/目录下
+
+* 打开app\/com.sobte.cqp.jcq\/conf\/目录下的settings.ini文件，修改JrePath指向刚刚下载的JRE文件夹
+
+-------------------
+
 ### 支持语言目录
 
 * 任何代码的开头都必须是“<触发符号>”
