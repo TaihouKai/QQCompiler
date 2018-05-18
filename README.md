@@ -10,13 +10,13 @@
 
 ### 本项目使用/依赖/包含了以下工具
 
-#### [酷Q](https://cqp.cc/forum.php)
+* [酷Q](https://cqp.cc/forum.php)
 
-#### [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte
+* [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte
 
-#### [MIDITime](https://github.com/cirlabs/miditime) by cirlabs
+* [MIDITime](https://github.com/cirlabs/miditime) by cirlabs
 
-#### [TiMidity++](https://www.timidity.jp/) by Masanao Izumo
+* [TiMidity++](https://www.timidity.jp/) by Masanao Izumo
 
 -------------------
 
