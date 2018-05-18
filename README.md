@@ -10,7 +10,7 @@
 
 ### 本项目使用/依赖/包含了以下工具
 
-* [酷Q](https://cqp.cc/forum.php)
+* [酷Q](https://cqp.cc/forum.php) by CoolQ
 
 * [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte
 
