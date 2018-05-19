@@ -82,13 +82,11 @@
 
 ### 使用指南：Python篇
 
-* 使用分隔符号(;)分隔每条命令
-
 例
 
 ```python
 #p;
-print("Hello, Python!");
+print("Hello, Python!")
 ```
 
 -------------------
