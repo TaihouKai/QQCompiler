@@ -18,7 +18,7 @@
 
 * [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte （包含在本项目内）
 
-* [TiMidity++](https://www.timidity.jp/) by Masanao Izumo (包含在本项目内并做了部分修改）
+* [TiMidity++](https://www.timidity.jp/) by Masanao Izumo (包含在本项目内，并做了部分修改）
 
 -------------------
 
