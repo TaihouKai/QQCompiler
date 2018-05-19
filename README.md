@@ -10,15 +10,15 @@
 
 -------------------
 
-### 本项目使用/依赖/包含了以下工具
+### 本项目使用了以下工具
 
-* [酷Q](https://cqp.cc/forum.php) by CoolQ
+* [酷Q Pro](https://cqp.cc/forum.php) by CoolQ (付费软件，未包含在本项目内)
 
-* [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte
+* [MIDITime](https://github.com/cirlabs/miditime) by cirlabs (使用pip install安装，未包含在本项目内）
 
-* [MIDITime](https://github.com/cirlabs/miditime) by cirlabs
+* [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte （包含在本项目内）
 
-* [TiMidity++](https://www.timidity.jp/) by Masanao Izumo
+* [TiMidity++](https://www.timidity.jp/) by Masanao Izumo (包含在本项目内并做了部分修改）
 
 -------------------
 
@@ -45,6 +45,10 @@
 * 打开app\/com.sobte.cqp.jcq\/conf\/目录下的settings.ini文件，修改JrePath指向刚刚下载的JRE文件夹
 
 * 准备好[Python3](https://www.python.org/downloads/)、[Java](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)和[Steel Bank Common Lisp (SBCL)](http://www.sbcl.org/)的运行环境以及系统环境变量（暂只支持Windows系统）
+
+* 执行 pip install miditime ，安装miditime
+
+* 运行酷Q，登录QQ机器人账号，右键状态栏图标进入应用-应用管理，启用JavaCQ SDK Tool
 
 -------------------
 
