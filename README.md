@@ -82,6 +82,8 @@
 
 ### 使用指南：Python篇
 
+* 不支持中文
+
 例
 
 ```python
@@ -93,7 +95,7 @@ print("Hello, Python!")
 
 ### 使用指南：Java篇
 
-* 源代码即可
+* 支持中文
 
 例
 
@@ -109,8 +111,6 @@ System.out.print("Hello, world!");
 -------------------
 
 ### 使用指南：CommonLisp篇
-
-* 源代码即可
 
 * 不支持中文
 
