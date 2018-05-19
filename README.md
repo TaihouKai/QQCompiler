@@ -6,6 +6,8 @@
 
 > 作者添加了一些额外功能，下有详细目录
 
+> [旧版传送门](https://github.com/TaihouKai/QQCompiler-Old-Version)
+
 -------------------
 
 ### 本项目使用/依赖/包含了以下工具
@@ -41,6 +43,8 @@
 * 下载[32位JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)（64位JRE不支持酷Q），放到app\/com.sobte.cqp.jcq\/conf\/目录下
 
 * 打开app\/com.sobte.cqp.jcq\/conf\/目录下的settings.ini文件，修改JrePath指向刚刚下载的JRE文件夹
+
+* 准备好Python3、Java和Steel Bank Common Lisp (SBCL)的运行环境以及系统环境变量（暂只支持Windows系统）
 
 -------------------
 
