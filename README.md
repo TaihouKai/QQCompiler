@@ -44,7 +44,7 @@
 
 * 打开app\/com.sobte.cqp.jcq\/conf\/目录下的settings.ini文件，修改JrePath指向刚刚下载的JRE文件夹
 
-* 准备好[Python3](https://www.python.org/downloads/)、[Java](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)和[Steel Bank Common Lisp (SBCL)](http://www.sbcl.org/)的运行环境以及系统环境变量（暂只支持Windows系统）
+* 准备好所有被支持语言的运行环境以及系统环境变量
 
 * 执行 pip install miditime ，安装miditime
 
