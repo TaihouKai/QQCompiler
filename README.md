@@ -74,7 +74,7 @@
 
 * 额外功能的帮助请开启机器人后查看使用帮助
 
-  * 或者查看[源代码](https://github.com/TaihouKai/QQCompiler/blob/master/src/com/mainpackage/CoolQ.java)中使用帮助字符串的部分
+* 或者查看[源代码](https://github.com/TaihouKai/QQCompiler/blob/master/src/com/mainpackage/CoolQ.java)中使用帮助字符串的部分
 
 | 类别 | 名称 | 描述 | 触发符号 |
 | --- | --- | --- | --- |
