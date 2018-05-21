@@ -3,10 +3,13 @@ package com.mainpackage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 import com.sobte.cqp.jcq.entity.Anonymous;
@@ -163,13 +166,64 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 		}
 		
+		//玩家数据处理部分
+		if (CQCode.decode(msg).charAt(0) == ';') {
+			//判断身份是否为KP
+			try {
+				Scanner sc = new Scanner(new File("KP.txt"));
+				String KPQQstr = sc.nextLine();
+				sc.close();
+				long KPQQ = Long.valueOf(KPQQstr);
+				//否：直接停止
+				if (KPQQ != fromQQ) {
+					CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "你没有KP权限");
+					return MSG_IGNORE;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//是KP：继续
+			if (CQCode.decode(msg).indexOf(";KP") == -1) {
+				//处理数据
+				try {
+					String output = handleData(subType, msgId, fromQQ, msg.substring(1), font);
+					CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				//任命KP
+				try {
+					Scanner sc = new Scanner(new File("KP.txt"));
+					String oldKPstr = sc.nextLine();
+					sc.close();
+					
+					long oldKP = Long.valueOf(oldKPstr);
+					long newKP = Long.valueOf(msg.substring(4));
+					
+					PrintWriter writer = new PrintWriter("KP.txt", "UTF-8");
+					writer.print(String.valueOf(newKP));
+					writer.close();
+					
+					CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "KP变更：\n" + String.valueOf(oldKP) + " -> " + String.valueOf(newKP));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		//帮助部分 - 总览
 		if (CQCode.decode(msg).indexOf("#help;") != -1) {
-			String output = "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n\n"
+			String output = ""
+					+ "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n"
+					+ "(请输入括号内的符号作为起始标记，例：#m; 0,60,1)\n"
+					+ "\n"
 					+ "1. Python编译器(#p;)\n"
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
-					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)";
+					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -187,6 +241,35 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "参考: 60为中音Do,61为升Do,62为Re,以此类推\n"
 					+ "\n"
 					+ "备注：过于频繁地发送音乐信息会导致生成失败";
+			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
+		}
+		
+		//帮助部分 - 跑团数据记录器
+		if (CQCode.decode(msg).indexOf("#trpghelp;") != -1) {
+			String output = ""
+					+ "您好，这里是御坂10032号。这里是跑团数据记录器的使用指南：\n"
+					+ "\n"
+					+ "1.创建数据\n"
+					+ "命令：;<玩家名称> Create <属性1>=<值1>,<属性2>=<值2>,...\n"
+					+ "例：;YajuSenpai Create HP=114,MP=514\n"
+					+ "\n"
+					+ "2.查看数据\n"
+					+ "命令：;<玩家名称> View\n"
+					+ "例：;YajuSenpai View\n"
+					+ "\n"
+					+ "3.修改数据\n"
+					+ "命令：;<玩家名称> <属性> <增减值>\n"
+					+ "例：;YajuSenpai HP +1919\n"
+					+ "\n"
+					+ "4.指定KP\n"
+					+ "命令：;KP <KP的QQ>\n"
+					+ "例：;KP 10000\n"
+					+ "特别事项：请KP谨慎使用此功能，一旦输入错误就必须重启服务器端来修正错误的数据。\n"
+					+ "\n"
+					+ "备注：本功能仅限KP使用。\n"
+					+ "备注：请不要把玩家命名为“KP”\n"
+					+ "备注：过于频繁地使用本功能会导致数据库损坏\n"
+					+ "备注：本记录器目前不支持删除条目，请谨慎使用";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -282,13 +365,64 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 		}
 		
+		//玩家数据处理部分
+		if (CQCode.decode(msg).charAt(0) == ';') {
+			//判断身份是否为KP
+			try {
+				Scanner sc = new Scanner(new File("KP.txt"));
+				String KPQQstr = sc.nextLine();
+				sc.close();
+				long KPQQ = Long.valueOf(KPQQstr);
+				//否：直接停止
+				if (KPQQ != fromQQ) {
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "你没有KP权限");
+					return MSG_IGNORE;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//是KP：继续
+			if (CQCode.decode(msg).indexOf(";KP") == -1) {
+				//处理数据
+				try {
+					String output = handleData(subType, msgId, fromQQ, msg.substring(1), font);
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else {
+				//任命KP
+				try {
+					Scanner sc = new Scanner(new File("KP.txt"));
+					String oldKPstr = sc.nextLine();
+					sc.close();
+					
+					long oldKP = Long.valueOf(oldKPstr);
+					long newKP = Long.valueOf(msg.substring(4));
+					
+					PrintWriter writer = new PrintWriter("KP.txt", "UTF-8");
+					writer.print(String.valueOf(newKP));
+					writer.close();
+					
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "KP变更：\n" + String.valueOf(oldKP) + " -> " + String.valueOf(newKP));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		//帮助部分 - 总览
 		if (CQCode.decode(msg).indexOf("#help;") != -1) {
-			String output = "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n\n"
+			String output = ""
+					+ "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n"
+					+ "(请输入括号内的符号作为起始标记，例：#m; 0,60,1)\n"
+					+ "\n"
 					+ "1. Python编译器(#p;)\n"
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
-					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)";
+					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -309,9 +443,59 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
+		//帮助部分 - 跑团数据记录器
+		if (CQCode.decode(msg).indexOf("#trpghelp;") != -1) {
+			String output = ""
+					+ "您好，这里是御坂10032号。这里是跑团数据记录器的使用指南：\n"
+					+ "\n"
+					+ "1.创建数据\n"
+					+ "命令：;<玩家名称> Create <属性1>=<值1>,<属性2>=<值2>,...\n"
+					+ "例：;YajuSenpai Create HP=114,MP=514\n"
+					+ "\n"
+					+ "2.查看数据\n"
+					+ "命令：;<玩家名称> View\n"
+					+ "例：;YajuSenpai View\n"
+					+ "\n"
+					+ "3.修改数据\n"
+					+ "命令：;<玩家名称> <属性> <增减值>\n"
+					+ "例：;YajuSenpai HP +1919\n"
+					+ "\n"
+					+ "4.指定KP\n"
+					+ "命令：;KP <KP的QQ>\n"
+					+ "例：;KP 10000\n"
+					+ "特别事项：请KP谨慎使用此功能，一旦输入错误就必须重启服务器端来修正错误的数据。\n"
+					+ "\n"
+					+ "备注：本功能仅限KP使用。\n"
+					+ "备注：请不要把玩家命名为“KP”\n"
+					+ "备注：过于频繁地使用本功能会导致数据库损坏\n"
+					+ "备注：本记录器目前不支持删除条目，请谨慎使用";
+			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
+		}
+		
         return MSG_IGNORE;
 	}
 
+	/**
+	 * 玩家数据处理
+	 * 
+	 * @param msg
+	 *           原消息
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public String handleData(int subType, int msgId, long fromQQ, String msg, int font) throws IOException, InterruptedException {
+		String output = new String();
+		msg = CQCode.decode(msg);
+		//msg examples
+		//Saber View
+		//Saber Create HP=1,MP=2
+		//Saber HP +20
+		output = execCmd("Python readJSON.py " + msg);
+		return output;
+	}
+	
 	/**
 	 * 操作并编译代码
 	 * 
@@ -428,7 +612,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	}
 	
 	/**
-	 * 执行系统命令
+	 * 执行系统命令并获取输出
 	 * 
 	 * @param cmd
 	 * @return
