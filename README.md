@@ -106,6 +106,10 @@ print("Hello, Python!")
 
 * 支持中文
 
+* 不要在大括号前后输入大于一个空格
+
+* 除了System.out.print/ln外尽量不要调用System.out
+
 例
 
 ```java
