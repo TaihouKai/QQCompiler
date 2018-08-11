@@ -223,7 +223,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
 					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
-					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)";
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)\n"
+					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -271,6 +272,32 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "备注：过于频繁地使用本功能会导致数据库损坏\n"
 					+ "备注：本记录器目前不支持删除条目，请谨慎使用";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
+		}
+		
+		//骰子部分
+		if (CQCode.decode(msg).indexOf("#r") != -1 && CQCode.decode(msg).length() > 2) {
+			try {
+				//Example:3d12
+				String diceResult = new String();
+				if (CQCode.decode(msg).charAt(2) == ' ') {
+					diceResult = dice(CQCode.decode(msg).substring(3));
+				}
+				else {
+					diceResult = dice(CQCode.decode(msg).substring(2));
+				}
+				CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "骰子结果为：" + diceResult);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//个人功能部分
+		if (CQCode.decode(msg).indexOf("#prvt") != -1 && CQCode.decode(msg).length() > 5) {
+			String command = CQCode.decode(msg).substring(6);
+			//本人
+			if (fromQQ == 512737734) {
+				prvtFox(command, fromQQ);
+			}
 		}
 		
 		//自定义判定 范例
@@ -422,7 +449,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
 					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
-					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)";
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)\n"
+					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -472,6 +500,34 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
+		//骰子部分
+		if (CQCode.decode(msg).indexOf("#r") != -1 && CQCode.decode(msg).length() > 2) {
+			try {
+				//Example:3d12
+				String diceResult = new String();
+				if (CQCode.decode(msg).charAt(2) == ' ') {
+					diceResult = dice(CQCode.decode(msg).substring(3));
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "骰子结果为：" + diceResult);
+				}
+				else if (CQCode.decode(msg).charAt(2) == 'h' && CQCode.decode(msg).charAt(3) == ' ') {
+					diceResult = dice(CQCode.decode(msg).substring(4));
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "你执行了一次暗骰");
+					CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "骰子结果为：" + diceResult);
+				}
+				else if (CQCode.decode(msg).charAt(2) == 'h' && CQCode.decode(msg).charAt(3) != ' ') {
+					diceResult = dice(CQCode.decode(msg).substring(3));
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "你执行了一次暗骰");
+					CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "骰子结果为：" + diceResult);
+				}
+				else {
+					diceResult = dice(CQCode.decode(msg).substring(2));
+					CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + "骰子结果为：" + diceResult);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
         return MSG_IGNORE;
 	}
 
@@ -494,6 +550,44 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		//Saber HP +20
 		output = execCmd("Python readJSON.py " + msg);
 		return output;
+	}
+	
+	/**
+	 * 骰子运行处理
+	 * 
+	 * @param command
+	 *               骰子命令
+	 * @return
+	 * @throws IOException 
+	 */
+	public String dice(String command) throws IOException {
+		String output = new String();
+		output = execCmd("Python dice.py " + command);
+		return output;
+	}
+	
+	/**
+	 * 狐狸的个人功能
+	 * @param command
+	 *     command = 水平距离x高度
+	 */
+	public double[] prvtFox(String command, long fromQQ) {
+		// index 0 = 水平距离
+		// index 1 = 高度
+		String[] commands = command.split("x");
+		// result[0] = min
+		// result[1] = max
+		double[] result = new double[2];
+		
+		double distance = Math.sqrt(Double.valueOf(commands[0])*Double.valueOf(commands[0]) 
+				+ Double.valueOf(commands[1])*Double.valueOf(commands[1]));
+		result[0] = distance * 0.267;
+		result[1] = distance * 1.732;
+		
+		CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "扫描面半径最小为：" + result[0]/1000 + "公里。"
+				+ "\n扫描面半径最大为：" + result[1]/1000 + "公里。");
+		
+		return result;
 	}
 	
 	/**
