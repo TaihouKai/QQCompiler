@@ -34,7 +34,7 @@
 
 ### 运行指南
 
-* 购买并下载酷Q-Pro（免费版酷Q不支持此插件的部分功能）。
+* 购买并下载酷Q-Pro（免费版酷Q不支持此插件的部分功能，但是可以运行）。
 
 * 下载本项目的CoolQ-DIR目录下所有内容，并移动/覆盖/合并这些内容到酷Q-Pro根目录
 
@@ -51,6 +51,25 @@
 * 执行 pip install miditime ，安装miditime
 
 * 运行酷Q，登录QQ机器人账号，右键状态栏图标进入应用-应用管理，启用JavaCQ SDK Tool
+
+-------------------
+
+
+### 开发
+
+* 将酷Q成功准备成可以运行本机器人的状态(参考运行指南)
+
+* 下载本项目，删掉CoolQ-DIR目录
+
+* 导入到Eclipse里，修改源码
+
+* 右键项目点击Export，选择JAVA -> JAR File，点击Next
+
+* 设置成以下的样子
+
+<img src="https://github.com/TaihouKai/QQCompiler/blob/master/img/export.png?raw=true" width="100%">
+
+* 点击Finish
 
 -------------------
 
