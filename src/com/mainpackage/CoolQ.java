@@ -567,27 +567,12 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	}
 	
 	/**
-	 * 狐狸的个人功能
+	 * 个人功能
 	 * @param command
 	 *     command = 水平距离x高度
 	 */
 	public double[] prvtFox(String command, long fromQQ) {
-		// index 0 = 水平距离
-		// index 1 = 高度
-		String[] commands = command.split("x");
-		// result[0] = min
-		// result[1] = max
-		double[] result = new double[2];
-		
-		double distance = Math.sqrt(Double.valueOf(commands[0])*Double.valueOf(commands[0]) 
-				+ Double.valueOf(commands[1])*Double.valueOf(commands[1]));
-		result[0] = distance * 0.267;
-		result[1] = distance * 1.732;
-		
-		CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + "扫描面半径最小为：" + result[0]/1000 + "公里。"
-				+ "\n扫描面半径最大为：" + result[1]/1000 + "公里。");
-		
-		return result;
+		return null;
 	}
 	
 	/**
@@ -607,7 +592,10 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			//Python
 			//写入.py文件
 			BufferedWriter writer = new BufferedWriter(new FileWriter("pythoncode.py"));
+			// "# -*- coding:gbk -*-";
 			msg = msg.substring(4);
+			String gbk = "# -*- coding:gbk -*-\n";
+			msg = gbk + msg;
 			writer.write(msg);
 			writer.close();
 			//执行.py文件并获取输出
@@ -715,7 +703,9 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	public static String execCmd(String cmd) throws java.io.IOException {
 	    @SuppressWarnings("resource")
 		java.util.Scanner s = new java.util.Scanner(Runtime.getRuntime().exec(cmd).getInputStream()).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
+	    String output = s.hasNext() ? s.next() : "";
+	    output = output.trim();
+	    return output;
 	}
 	
 	/**
