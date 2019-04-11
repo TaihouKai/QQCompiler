@@ -124,8 +124,6 @@ print("Hello, Python!")
 
 ### 使用指南：Java篇
 
-* 支持中文
-
 * 不要在大括号前后输入大于一个空格
 
 * 除了System.out.print/ln外尽量不要调用System.out
@@ -144,8 +142,6 @@ System.out.print("Hello, world!");
 -------------------
 
 ### 使用指南：CommonLisp篇
-
-* 不支持中文
 
 例
 
