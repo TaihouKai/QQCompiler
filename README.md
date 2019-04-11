@@ -16,7 +16,7 @@
 
 * [MIDITime](https://github.com/cirlabs/miditime) by cirlabs (使用pip install安装，未包含在本项目内）
 
-* [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte （包含在本项目内）
+* [JCQ](https://github.com/Sobte/JCQ-CoolQ) by Sobte （包含在本项目内，并非最新版本，最新版本不保证兼容）
 
 * [TiMidity++](https://www.timidity.jp/) by Masanao Izumo (包含在本项目内，并做了部分修改）
 
