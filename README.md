@@ -67,7 +67,7 @@
 
 * 设置成以下的样子
 
-<img src="https://github.com/TaihouKai/QQCompiler/blob/master/img/export.png?raw=true" width="100%">
+<img src="https://github.com/TaihouKai/QQCompiler/blob/master/img/export.png?raw=true" width="50%">
 
 * 点击Finish
 
