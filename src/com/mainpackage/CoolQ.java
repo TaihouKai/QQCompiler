@@ -357,7 +357,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 			
 			//encrypt
-			long group = 313817129;
+			long group = 1145141919810;//替换成你自己的群号
 			String encryptedMsg = encrypt(messageSend, String.valueOf(fromQQ));
 			CQ.sendGroupMsg(group, "某人对" + QQ + "说了一句悄悄话：\n[已加密]"
 					+ encryptedMsg);
