@@ -10,7 +10,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Scanner;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.sobte.cqp.jcq.entity.Anonymous;
 import com.sobte.cqp.jcq.entity.CQCode;
@@ -121,7 +141,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	 *         注意：应用优先级设置为"最高"(10000)时，不得使用本返回值<br>
 	 *         如果不回复消息，交由之后的应用/过滤器处理，这里 返回  {@link IMsg#MSG_IGNORE MSG_IGNORE} - 忽略本条消息
 	 */
-	public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) {
+	public int privateMsg(int subType, int msgId, long fromQQ, String msg, int font) throws StringIndexOutOfBoundsException{
 		// 这里处理消息
 		
 		//编译器部分，只处理长度>3的消息
@@ -298,6 +318,65 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			if (fromQQ == 512737734) {
 				prvtFox(command, fromQQ);
 			}
+		}
+		
+		//悄悄话部分：群发送
+		//格式: #to.targetQQ:MSG
+		if (CQCode.decode(msg).indexOf("#to.") != -1) {
+			String message = CQCode.decode(msg);
+			String QQ = new String();
+			
+			//get QQ
+			boolean isQQ = false;
+			for (int i=0;i<message.length();i++) {
+				char thisChar = message.charAt(i);
+				if (!isQQ && thisChar == '.') {
+					isQQ = true;
+					continue;
+				}
+				if (isQQ && thisChar != ':') {
+					QQ += String.valueOf(thisChar);
+				}
+				if (thisChar == ':') {
+					break;
+				}
+			}
+			
+			//get real message
+			String messageSend = new String();
+			boolean isMsg = false;
+			for (int i=0;i<message.length();i++) {
+				char thisChar = message.charAt(i);
+				if (!isMsg && thisChar == ':') {
+					isMsg = true;
+					continue;
+				}
+				if (isMsg) {
+					messageSend += String.valueOf(thisChar);
+				}
+			}
+			
+			//encrypt
+			long group = 313817129;
+			String encryptedMsg = encrypt(messageSend, String.valueOf(fromQQ));
+			CQ.sendGroupMsg(group, "某人对" + QQ + "说了一句悄悄话：\n[已加密]"
+					+ encryptedMsg);
+			CQ.sendPrivateMsg(Long.valueOf(QQ), "有人对你说了一句悄悄话：\n"
+					+ messageSend);
+			
+			
+			//test decrypt
+			//String decryptedMsg = decrypt(encryptedMsg, String.valueOf(fromQQ));
+			
+			//test return
+			/*
+			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) 
+					+ "\n" + "来源：" + String.valueOf(fromQQ)
+					+ "\n" + "目标：" + QQ
+					+ "\n消息：" + messageSend
+					+ "\n加密：" + encryptedMsg
+					+ "\n解密：" + decryptedMsg);
+					*/
 		}
 		
 		//自定义判定 范例
@@ -576,7 +655,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	}
 	
 	/**
-	 * 操作并编译代码
+	 * 操作并编译代码 & jrrp
 	 * 
 	 * @param msg
 	 *           原消息
@@ -587,7 +666,9 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	public String processMsg(int subType, int msgId, long fromQQ, String msg, int font) throws IOException, InterruptedException {
 		String output = new String();
 		String indicator = msg.substring(0, 3);
+		String originalMsg = CQCode.decode(msg);
 		msg = CQCode.decode(msg);
+		//编译器
 		if (indicator.equals("#p;")) {
 			//Python
 			//写入.py文件
@@ -673,10 +754,81 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			File file = new File("lispcode.lisp");
 			file.delete();
 		}
+		
+		//jrrp
+		if (msg.equals("#jrrp")) {
+			msg = originalMsg;
+			String num = String.valueOf(fromQQ);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			LocalDate localDate = LocalDate.now();
+			String date = dtf.format(localDate);	
+			String input = num + date;
+			//get md5
+			String md5 = getMd5(input);
+			md5 = catchFirstTwoNum(md5);
+			//get sha1
+			String sha1 = DigestUtils.sha1Hex(input);
+			sha1 = catchFirstTwoNum(sha1);
+			//combine
+			String finalOutput;
+			if (Integer.valueOf(String.valueOf(date.charAt(date.length()-1))) %2 == 0) {
+				finalOutput = String.valueOf(md5.charAt(0)) + String.valueOf(sha1.charAt(1));
+			}
+			else {
+				finalOutput = String.valueOf(md5.charAt(1)) + String.valueOf(sha1.charAt(0));
+			}
+			String attitudePre = "你今天挨打的几率是: ";
+			String attitudePost = "。";
+			int rp = Integer.valueOf(finalOutput);
+			
+			output = attitudePre + finalOutput + attitudePost;
+		}
 		return output;
 	}
 	
-
+	/**
+	 * Generate MD5 of a String
+	 * @param input
+	 * @return
+	 */
+	public static String getMd5(String input) { 
+		try {
+			// Static getInstance method is called with hashing MD5 
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+			
+			// digest() method is called to calculate message digest 
+			//  of an input digest() return array of byte 
+			byte[] messageDigest = md.digest(input.getBytes()); 
+			
+			// Convert byte array into signum representation 
+			BigInteger no = new BigInteger(1, messageDigest); 
+			
+			// Convert message digest into hex value 
+			String hashtext = no.toString(16); 
+			while (hashtext.length() < 32) { 
+				hashtext = "0" + hashtext; 
+			} 
+			return hashtext; 
+		}
+		// For specifying wrong message digest algorithms 
+		catch (NoSuchAlgorithmException e) { 
+			throw new RuntimeException(e); 
+		} 
+	}
+	
+	public static String catchFirstTwoNum(String input) {
+		char[] inputArr = input.toCharArray();
+		char[] outputArr = new char[2];
+		int current = 0;
+		for (int i=0;i<outputArr.length;i++) {
+			while (!(inputArr[current] >= '0' && inputArr[current] <= '9')) {
+				current++;
+			}
+			outputArr[i] = inputArr[current];
+			current++;
+		}
+		return String.valueOf(outputArr);
+	}
 
 	/**
 	 * Generate random string based on given length
@@ -706,6 +858,80 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	    String output = s.hasNext() ? s.next() : "";
 	    output = output.trim();
 	    return output;
+	}
+	
+	/**
+	 *  加密悄悄话
+	 * @param key 秘钥，通常是自己QQ号
+	 * @return
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BadPaddingException 
+	 * @throws ShortBufferException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws InvalidKeyException 
+	 */
+	public static String encrypt(String message, String myKey){
+		try {
+			SecretKeySpec secretKey;
+		    byte[] key;
+		    
+	    	//set key
+			MessageDigest sha = null;
+			key = myKey.getBytes("UTF-8");
+			sha = MessageDigest.getInstance("SHA-1");
+			key = sha.digest(key);
+			key = Arrays.copyOf(key, 16);
+			secretKey = new SecretKeySpec(key, "AES");
+			
+	        //encryption
+	        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+	        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+	        String encrypted = Base64.getEncoder().encodeToString(cipher.doFinal(message.getBytes("UTF-8")));
+	        System.out.println(encrypted);
+
+			return encrypted;
+		} catch (Exception e) {
+			return e.toString();
+		}
+	}
+	
+	/**
+	 *  解密悄悄话
+	 * @param key 秘钥，通常是对方QQ号
+	 * @return
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BadPaddingException 
+	 * @throws ShortBufferException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws InvalidKeyException 
+	 */
+	public static String decrypt(String encrypted, String myKey){
+		try {
+			SecretKeySpec secretKey;
+		    byte[] key;
+		    
+	    	//set key
+			MessageDigest sha = null;
+			key = myKey.getBytes("UTF-8");
+			sha = MessageDigest.getInstance("SHA-1");
+			key = sha.digest(key);
+			key = Arrays.copyOf(key, 16);
+			secretKey = new SecretKeySpec(key, "AES");
+			
+			//decrypt
+			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+			cipher.init(Cipher.DECRYPT_MODE, secretKey);
+	        String decrypted = new String(cipher.doFinal(Base64.getDecoder().decode(encrypted)));
+	        System.out.println(decrypted);
+
+			return decrypted;
+		} catch (Exception e) {
+			return e.toString();
+		}
 	}
 	
 	/**
