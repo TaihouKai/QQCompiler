@@ -11,14 +11,31 @@ from collections import OrderedDict
 def write_json(player, changeType, changeValue):
     # generate json
     data = read_json("PlayersData.json")
-    if (changeType.lower() == "view"):
-        # View
+    if (changeType.lower() == "view" and player.lower() != "all"):
+        # Check if exist
+        if (player not in data):
+            print("Cannot find this player!")
+            return
+        # View One Player
         printValue = ""
         printValue = printValue + "Player: " + player + "\n"
         for attribute in data[player]:
             printValue = printValue + attribute + ": " + str(data[player][attribute]) + "\n"
-        print (printValue)
+        print(printValue)
+    elif (changeType.lower() == "view" and player.lower() == "all"):
+        # View All
+        printValue = ""
+        for thisPlayer in data:
+            printValue = printValue + "Player: " + thisPlayer + "\n"
+            for attribute in data[thisPlayer]:
+                printValue = printValue + attribute + ": " + str(data[thisPlayer][attribute]) + "\n"
+            printValue = printValue + "\n"
+        print(printValue)
     elif (changeType.lower() == "create"):
+        # Check if exist
+        if (player in data):
+            print("Player existed!")
+            return
         # Create
         printValue = ""
         printValue = printValue + "Player: " + player + ", created\n"
@@ -38,11 +55,27 @@ def write_json(player, changeType, changeValue):
         data[player] = json.loads(thisdata, object_pairs_hook=OrderedDict)
         for attribute in data[player]:
             printValue = printValue + attribute + ": " + str(data[player][attribute]) + "\n"
-        print (printValue)
+        print(printValue)
+        modify_file(data)
+    elif (changeType.lower() == "delete"):
+        # Check if exist
+        if (player not in data):
+            print("Cannot find this player!")
+            return
+        # Delete
+        for thisPlayer in data:
+            if (thisPlayer == player):
+                del data[thisPlayer]
+                break
+        print("Player " + player + ", deleted")
         modify_file(data)
     else:
+        # Check if exist
+        if (player not in data):
+            print("Cannot find this player!")
+            return
         # Modify
-        printValue = ""
+        printValue = "Modifying\n"
         printValue = printValue + "Player: " + player + "\n"
         originalValue = data[player][changeType]
         if (changeValue[0] == "+"):
@@ -80,7 +113,7 @@ def read_json(filename):
 #
 # Print out required data to pass to JAVA
 def main():
-    if (str(sys.argv[2]).lower() != "view" and str(sys.argv[2]).lower() != "create"):
+    if (str(sys.argv[2]).lower() != "view" and str(sys.argv[2]).lower() != "create" and str(sys.argv[2]).lower() != "delete"):
         # Modify values
         # Return: NULL
         # Print:
@@ -98,6 +131,13 @@ def main():
         # # <attribute2>: <value2>
         # # ...
         # # python readJSON.py <player_name> View
+        write_json(str(sys.argv[1]), str(sys.argv[2]), "")
+    elif (str(sys.argv[2]).lower() == "delete"):
+        # Delete player data
+        # Return: NULL
+        # Print:
+        # # Player: <player_name>, deleted
+        # # python readJSON.py <player_name> Delete
         write_json(str(sys.argv[1]), str(sys.argv[2]), "")
     elif (str(sys.argv[2]).lower() == "create"):
         # Create new player data
