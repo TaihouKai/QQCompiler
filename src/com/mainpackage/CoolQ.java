@@ -277,20 +277,24 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2.查看数据\n"
 					+ "命令：;<玩家名称> View\n"
 					+ "例：;YajuSenpai View\n"
+					+ "例：;All View (查看全部)\n"
 					+ "\n"
 					+ "3.修改数据\n"
 					+ "命令：;<玩家名称> <属性> <增减值>\n"
 					+ "例：;YajuSenpai HP +1919\n"
 					+ "\n"
-					+ "4.指定KP\n"
+					+ "4.删除数据\n"
+					+ "命令：;<玩家名称> Delete\n"
+					+ "例：;YajuSenpai Delete\n"
+					+ "\n"
+					+ "5.指定KP\n"
 					+ "命令：;KP <KP的QQ>\n"
 					+ "例：;KP 10000\n"
 					+ "特别事项：请KP谨慎使用此功能，一旦输入错误就必须重启服务器端来修正错误的数据。\n"
 					+ "\n"
 					+ "备注：本功能仅限KP使用。\n"
-					+ "备注：请不要把玩家命名为“KP”\n"
-					+ "备注：过于频繁地使用本功能会导致数据库损坏\n"
-					+ "备注：本记录器目前不支持删除条目，请谨慎使用";
+					+ "备注：请不要把玩家命名为“KP”或者“All”\n"
+					+ "备注：过于频繁地(例如1秒之内很多次)使用本功能会导致数据库损坏";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -357,7 +361,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 			
 			//encrypt
-			long group = 1145141919810;//替换成你自己的群号
+			long group = 313817129;
 			String encryptedMsg = encrypt(messageSend, String.valueOf(fromQQ));
 			CQ.sendGroupMsg(group, "某人对" + QQ + "说了一句悄悄话：\n[已加密]"
 					+ encryptedMsg);
@@ -562,20 +566,24 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2.查看数据\n"
 					+ "命令：;<玩家名称> View\n"
 					+ "例：;YajuSenpai View\n"
+					+ "例：;All View (查看全部)\n"
 					+ "\n"
 					+ "3.修改数据\n"
 					+ "命令：;<玩家名称> <属性> <增减值>\n"
 					+ "例：;YajuSenpai HP +1919\n"
 					+ "\n"
-					+ "4.指定KP\n"
+					+ "4.删除数据\n"
+					+ "命令：;<玩家名称> Delete\n"
+					+ "例：;YajuSenpai Delete\n"
+					+ "\n"
+					+ "5.指定KP\n"
 					+ "命令：;KP <KP的QQ>\n"
 					+ "例：;KP 10000\n"
 					+ "特别事项：请KP谨慎使用此功能，一旦输入错误就必须重启服务器端来修正错误的数据。\n"
 					+ "\n"
 					+ "备注：本功能仅限KP使用。\n"
-					+ "备注：请不要把玩家命名为“KP”\n"
-					+ "备注：过于频繁地使用本功能会导致数据库损坏\n"
-					+ "备注：本记录器目前不支持删除条目，请谨慎使用";
+					+ "备注：请不要把玩家命名为“KP”或者“All”\n"
+					+ "备注：过于频繁地(例如1秒之内很多次)使用本功能会导致数据库损坏";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -627,6 +635,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		//Saber View
 		//Saber Create HP=1,MP=2
 		//Saber HP +20
+		//[WIP] Saber Delete
 		output = execCmd("Python readJSON.py " + msg);
 		return output;
 	}
