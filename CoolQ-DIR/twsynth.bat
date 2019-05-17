@@ -1,1 +1,0 @@
-timidity -c ./SYUUHOU/timidity.cfg -iW 1 2
