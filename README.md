@@ -36,7 +36,7 @@
 
 * 购买并下载酷Q-Pro（免费版酷Q不支持此插件的部分功能，但是可以运行）。
 
-* 下载本项目的CoolQ-DIR目录下所有内容，并移动/覆盖/合并这些内容到酷Q-Pro根目录
+* 下载[CoolQ-DIR](https://github.com/TaihouKai/QQCompiler-CoolQ-DIR)目录下所有内容，并移动/覆盖/合并这些内容到酷Q-Pro根目录
 
 * 找到freepats.zip文件，解压
 
@@ -59,7 +59,7 @@
 
 * 将酷Q成功准备成可以运行本机器人的状态(参考运行指南)
 
-* 下载本项目，删掉CoolQ-DIR目录
+* 下载本项目
 
 * 导入到Eclipse里，修改源码
 
@@ -71,7 +71,7 @@
 
 * 点击Finish
 
-* 将生成的jar文件放到\app\com.sobte.cqp.jcq\app目录下，覆盖
+* 将生成的jar文件放到酷Q目录下的\app\com.sobte.cqp.jcq\app，覆盖。
 
 -------------------
 
@@ -81,9 +81,9 @@
 
 | 语言 | 触发符号 |
 | --- | --- |
-| [Python](#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97python%E7%AF%87) | #p; |
-| [Java](#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97java%E7%AF%87) | #j; |
-| [CommonLisp](#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97commonlisp%E7%AF%87) | #l; |
+| Python | #p; |
+| Java | #j; |
+| CommonLisp | #l; |
 
 -------------------
 
