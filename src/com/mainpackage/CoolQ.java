@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Scanner;
@@ -32,8 +33,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.google.gson.Gson;
 import com.sobte.cqp.jcq.entity.Anonymous;
-import com.sobte.cqp.jcq.entity.CQCode;
+import com.sobte.cqp.jcq.entity.CQDebug;
+import com.sobte.cqp.jcq.message.CQCode;
 import com.sobte.cqp.jcq.entity.GroupFile;
 import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
@@ -53,7 +56,50 @@ import com.sobte.cqp.jcq.event.JcqAppAbstract;
  * 			   具体功能可以查看文档
  */
 public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
+	
+	public final long groupNumber = 313817129;
+	public ArrayList<String> chatLog = new ArrayList<String>();
+	
+	/**
+     * 用main方法调试可以最大化的加快开发效率，检测和定位错误位置<br/>
+     * 以下就是使用Main方法进行测试的一个简易案例
+     *
+     * @param args 系统参数
+     */
+    public static void main(String[] args) {
+    	/*
+        // CQ此变量为特殊变量，在JCQ启动时实例化赋值给每个插件，而在测试中可以用CQDebug类来代替他
+        CQ = new CQDebug();//new CQDebug("应用目录","应用名称") 可以用此构造器初始化应用的目录
+        CQ.logInfo("[JCQ] TEST Demo", "测试启动");// 现在就可以用CQ变量来执行任何想要的操作了
+        // 要测试主类就先实例化一个主类对象
+        CoolQ demo = new CoolQ();
+        // 下面对主类进行各方法测试,按照JCQ运行过程，模拟实际情况
+        demo.startup();// 程序运行开始 调用应用初始化方法
+        demo.enable();// 程序初始化完成后，启用应用，让应用正常工作
+        // 开始模拟发送消息
+        // 模拟私聊消息
+        // 开始模拟QQ用户发送消息，以下QQ全部编造，请勿添加
+        demo.privateMsg(0, 10001, 2234567819L, "小姐姐约吗", 0);
+        demo.privateMsg(0, 10002, 2222222224L, "喵呜喵呜喵呜", 0);
+        demo.privateMsg(0, 10003, 2111111334L, "可以给我你的微信吗", 0);
+        demo.privateMsg(0, 10004, 3111111114L, "今天天气真好", 0);
+        demo.privateMsg(0, 10005, 3333333334L, "你好坏，都不理我QAQ", 0);
+        // 模拟群聊消息
+        // 开始模拟群聊消息
+        demo.groupMsg(0, 10006, 3456789012L, 3333333334L, "", "菜单", 0);
+        demo.groupMsg(0, 10008, 3456789012L, 11111111114L, "", "小喵呢，出来玩玩呀", 0);
+        demo.groupMsg(0, 10009, 427984429L, 3333333334L, "", "[CQ:at,qq=2222222224] 来一起玩游戏，开车开车", 0);
+        demo.groupMsg(0, 10010, 427984429L, 3333333334L, "", "好久不见啦 [CQ:at,qq=11111111114]", 0);
+        demo.groupMsg(0, 10011, 427984429L, 11111111114L, "", "qwq 有没有一起开的\n[CQ:at,qq=3333333334]你玩嘛", 0);
+        // ......
+        // 依次类推，可以根据实际情况修改参数，和方法测试效果
+        // 以下是收尾触发函数
+        // demo.disable();// 实际过程中程序结束不会触发disable，只有用户关闭了此插件才会触发
+        demo.exit();// 最后程序运行结束，调用exit方法
+        */
+    }
 
+	
 	/**
 	 * 打包后将不会调用 请不要在此事件中写其他代码
 	 * 
@@ -361,9 +407,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 			
 			//encrypt
-			long group = 313817129;
 			String encryptedMsg = encrypt(messageSend, String.valueOf(fromQQ));
-			CQ.sendGroupMsg(group, "某人对" + QQ + "说了一句悄悄话：\n[已加密]"
+			CQ.sendGroupMsg(groupNumber, "某人对" + QQ + "说了一句悄悄话：\n[已加密]"
 					+ encryptedMsg);
 			CQ.sendPrivateMsg(Long.valueOf(QQ), "有人对你说了一句悄悄话：\n"
 					+ messageSend);
@@ -429,7 +474,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
         }
         // 解析CQ码案例 如：[CQ:at,qq=100000]
         // CC.analysis();// 此方法将CQ码解析为可直接读取的对象
-        long qqId = CC.getAt(msg);// 此方法为简便方法，获取第一个CQ:At里的QQ号，错误时为：-1000
+        //long qqId = CC.getAt(msg);// 此方法为简便方法，获取第一个CQ:At里的QQ号，错误时为：-1000
         // 这里处理消息
         //CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "你发送了这样的消息：" + msg + "\n来自Java插件");
         
@@ -533,7 +578,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "3. CommonLisp编译器(#l;)\n"
 					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
 					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)\n"
-					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)";
+					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)\n"
+					+ "7. 跑团聊天记录(#start)(#end <(可选)团名>)";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -585,6 +631,31 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "备注：请不要把玩家命名为“KP”或者“All”\n"
 					+ "备注：过于频繁地(例如1秒之内很多次)使用本功能会导致数据库损坏";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
+		}
+		
+		//跑团聊天记录 - 开始
+		if (CQCode.decode(msg).indexOf("#start") != -1 || chatLog.size() != 0) {
+			chatLog.add(CQCode.decode(msg));
+		}
+		
+		//跑团聊天记录 - 结束
+		//Sample: #end fileName
+		if (CQCode.decode(msg).indexOf("#end") != -1) {
+			String json = new Gson().toJson(chatLog);
+			String fileName = new String();
+			if (CQCode.decode(msg).length() <= 4) {
+				fileName = "跑团记录";
+			}
+			else {
+				fileName = CQCode.decode(msg).substring(5, CQCode.decode(msg).length());
+			}
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".json"));
+				writer.write(json);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//骰子部分
