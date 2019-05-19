@@ -34,13 +34,13 @@
 
 ### 运行指南
 
-* 购买并下载酷Q-Pro（免费版酷Q不支持此插件的部分功能，但是可以运行）。
+* 购买并下载酷Q-Pro（酷Q-Air不支持此插件的音频输出功能，但是可以正常运行其他功能）。
 
-* 下载[CoolQ-DIR](https://github.com/TaihouKai/QQCompiler-CoolQ-DIR)目录下所有内容，并移动/覆盖/合并这些内容到酷Q-Pro根目录
+* 下载[CoolQ-DIR](https://github.com/TaihouKai/QQCompiler-CoolQ-DIR)目录下所有内容，并移动/覆盖/合并这些内容到酷Q根目录
 
-* 找到freepats.zip文件，解压
+* <del>找到freepats.zip文件，解压</del>
 
-* 找到timiditydrv.zip文件，解压
+* <del>找到timiditydrv.zip文件，解压</del>
 
 * 下载[32位JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)（64位JRE不支持酷Q），放到app\/com.sobte.cqp.jcq\/conf\/目录下
 
@@ -48,7 +48,7 @@
 
 * 准备好所有被支持语言的运行环境以及系统环境变量
 
-* 执行 pip install miditime ，安装miditime
+* 执行pip install miditime，安装miditime
 
 * 运行酷Q，登录QQ机器人账号，右键状态栏图标进入应用-应用管理，启用JavaCQ SDK Tool
 

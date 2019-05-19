@@ -42,7 +42,6 @@ import com.sobte.cqp.jcq.entity.ICQVer;
 import com.sobte.cqp.jcq.entity.IMsg;
 import com.sobte.cqp.jcq.entity.IRequest;
 import com.sobte.cqp.jcq.event.JcqAppAbstract;
-
 /**
  * 本文件是JCQ插件的主类<br>
  * <br>
@@ -60,6 +59,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	//这是作者私人的群号和QQ号，请勿添加，群内不回答任何问题也不是闲聊群
 	public final long groupNumber = 313817129;//Default Group number: set your own value
 	public final long adminQQ = 512737734;//Default Bot Admin QQ: set your own value
+	
 	public ArrayList<String> chatLog = new ArrayList<String>();
 	
 	/**
