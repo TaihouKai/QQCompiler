@@ -57,7 +57,9 @@ import com.sobte.cqp.jcq.event.JcqAppAbstract;
  */
 public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	
-	public final long groupNumber = 313817129;
+	//这是作者私人的群号和QQ号，请勿添加，群内不回答任何问题也不是闲聊群
+	public final long groupNumber = 313817129;//Default Group number: set your own value
+	public final long adminQQ = 512737734;//Default Bot Admin QQ: set your own value
 	public ArrayList<String> chatLog = new ArrayList<String>();
 	
 	/**
@@ -761,6 +763,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			writer.close();
 			//执行.py文件并获取输出
 			output = execCmd("Python pythoncode.py");
+			//确认报警
+			CQ.sendPrivateMsg(adminQQ, fromQQ + "执行了Python代码，请核实。");
 			//删除.py文件
 			File file = new File("pythoncode.py");
 			file.delete();
@@ -813,13 +817,15 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 	        while ((s = outputreader.readLine()) != null){
 	            output+=s;
 	        }
+	        //确认报警
+			CQ.sendPrivateMsg(adminQQ, fromQQ + "执行了Java代码，请核实。");
 			//删除临时文件
 			File file1 = new File(filename + ".java");
 			file1.delete();
 			File file2 = new File("javaoutput.txt");
 			file2.delete();
 			File file3 = new File(filename + ".class");
-			file3.delete();
+			file3.delete();		
 		}
 		else if (indicator.equals("#l;")) {
 			//Common-Lisp
@@ -830,6 +836,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			writer.close();
 			//执行.lisp文件并获取输出
 			output = execCmd("sbcl --script lispcode.lisp");
+			//确认报警
+			CQ.sendPrivateMsg(adminQQ, fromQQ + "执行了Lisp代码，请核实。");
 			//删除.lisp文件
 			File file = new File("lispcode.lisp");
 			file.delete();
