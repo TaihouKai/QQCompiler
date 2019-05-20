@@ -38,7 +38,7 @@
 
 * 下载[CoolQ-DIR](https://github.com/TaihouKai/QQCompiler-CoolQ-DIR)目录下所有内容，并移动/覆盖/合并这些内容到酷Q根目录
 
-* <del>找到freepats.zip文件，解压</del>
+* <del>找到freepats.zip文件，解压</del> 暂不需要此步骤。此项改动<strong>可能</strong>会造成一些问题。目前还不确定。
 
 * <del>找到timiditydrv.zip文件，解压</del>
 
@@ -59,11 +59,11 @@
 
 * 将酷Q成功准备成可以运行本机器人的状态(参考运行指南)
 
-* 下载本项目
+* 将本项目导入到Eclipse里，修改源码
 
-* 导入到Eclipse里，修改源码
+* 可能需要添加lib里的3个jar到库。右键Project，选择Properties -> Java Build Path。
 
-* 右键项目点击Export，选择JAVA -> JAR File，点击Next
+* 输出jar：右键项目点击Export，选择JAVA -> JAR File，点击Next
 
 * 设置成以下的样子
 
