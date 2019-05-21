@@ -660,6 +660,11 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 			}
 		}
 		
+		//杂项 - 作者自用，开发者请删除
+		if (CQCode.decode(msg).indexOf(".jrrp") != -1) {
+			CQ.sendGroupMsg(fromGroup, "再让御坂看到你和那个女人说话，三天之内就杀了你，骨灰都给你扬咯。");
+		}
+		
 		//骰子部分
 		if (CQCode.decode(msg).indexOf("#r") != -1 && CQCode.decode(msg).length() > 2) {
 			try {
