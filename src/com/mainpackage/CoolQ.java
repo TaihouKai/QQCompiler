@@ -308,6 +308,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2,64,1\n"
 					+ "\n"
 					+ "参考: 60为中音Do,61为升Do,62为Re,以此类推\n"
+					+ "音乐范例: http://t.cn/E9CYwR3\n"
 					+ "\n"
 					+ "备注：过于频繁地发送音乐信息会导致生成失败";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
@@ -597,6 +598,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "2,64,1\n"
 					+ "\n"
 					+ "参考: 60为中音Do,61为升Do,62为Re,以此类推\n"
+					+ "音乐范例: http://t.cn/E9CYwR3\n"
 					+ "\n"
 					+ "备注：过于频繁地发送音乐信息会导致生成失败";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
