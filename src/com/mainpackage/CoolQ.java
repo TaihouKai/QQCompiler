@@ -282,7 +282,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		}
 		
 		//帮助部分 - 总览
-		if (CQCode.decode(msg).indexOf("#help;") != -1) {
+		if (CQCode.decode(msg).indexOf("#help") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n"
 					+ "(请输入括号内的符号作为起始标记，例：#m; 0,60,1)\n"
@@ -290,14 +290,14 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "1. Python编译器(#p;)\n"
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
-					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
-					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)\n"
+					+ "4. 自动音乐生成器(#m;)(请输入#mhelp来获取音乐生成指南)\n"
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp来获取跑团数据记录器使用指南)\n"
 					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
 		//帮助部分 - 音乐生成器
-		if (CQCode.decode(msg).indexOf("#mhelp;") != -1) {
+		if (CQCode.decode(msg).indexOf("#mhelp") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。这里是音乐生成器的使用指南：\n"
 					+ "\n"
@@ -315,7 +315,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		}
 		
 		//帮助部分 - 跑团数据记录器
-		if (CQCode.decode(msg).indexOf("#trpghelp;") != -1) {
+		if (CQCode.decode(msg).indexOf("#trpghelp") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。这里是跑团数据记录器的使用指南：\n"
 					+ "\n"
@@ -571,7 +571,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		}
 		
 		//帮助部分 - 总览
-		if (CQCode.decode(msg).indexOf("#help;") != -1) {
+		if (CQCode.decode(msg).indexOf("#help") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。目前御坂网络已经实装了以下功能：\n"
 					+ "(请输入括号内的符号作为起始标记，例：#m; 0,60,1)\n"
@@ -579,15 +579,15 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "1. Python编译器(#p;)\n"
 					+ "2. Java编译器(#j;)\n"
 					+ "3. CommonLisp编译器(#l;)\n"
-					+ "4. 自动音乐生成器(#m;)(请输入#mhelp;来获取音乐生成指南)\n"
-					+ "5. 跑团数据记录器(;)(请输入#trpghelp;来获取跑团数据记录器使用指南)\n"
+					+ "4. 自动音乐生成器(#m;)(请输入#mhelp来获取音乐生成指南)\n"
+					+ "5. 跑团数据记录器(;)(请输入#trpghelp来获取跑团数据记录器使用指南)\n"
 					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)\n"
 					+ "7. 跑团聊天记录(#start)(#end <(可选)团名>)";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
 		//帮助部分 - 音乐生成器
-		if (CQCode.decode(msg).indexOf("#mhelp;") != -1) {
+		if (CQCode.decode(msg).indexOf("#mhelp") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。这里是音乐生成器的使用指南：\n"
 					+ "\n"
@@ -605,7 +605,7 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 		}
 		
 		//帮助部分 - 跑团数据记录器
-		if (CQCode.decode(msg).indexOf("#trpghelp;") != -1) {
+		if (CQCode.decode(msg).indexOf("#trpghelp") != -1) {
 			String output = ""
 					+ "您好，这里是御坂10032号。这里是跑团数据记录器的使用指南：\n"
 					+ "\n"
