@@ -34,7 +34,7 @@
 
 ### 运行指南
 
-* 购买并下载酷Q-Pro（酷Q-Air不支持此插件的音频输出功能，但是可以正常运行其他功能）。
+* 购买并下载酷Q-Pro（免费版的酷Q-Air不支持此插件的音频输出功能，但是可以正常运行其他功能）。
 
 * 下载[CoolQ-DIR](https://github.com/TaihouKai/QQCompiler-CoolQ-DIR)目录下所有内容，并移动/覆盖/合并这些内容到酷Q根目录
 
