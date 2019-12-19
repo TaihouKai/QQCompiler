@@ -292,7 +292,9 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "3. CommonLisp编译器(#l;)\n"
 					+ "4. 自动音乐生成器(#m;)(请输入#mhelp来获取音乐生成指南)\n"
 					+ "5. 跑团数据记录器(;)(请输入#trpghelp来获取跑团数据记录器使用指南)\n"
-					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)";
+					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)\n"
+					+ "7. 悄悄话(#to.QQ号:消息内容)(例：#to.123456:nm$l)(请私聊)\n"
+					+ "8. 跑团聊天记录(#start)(#end <(可选)团名>)";
 			CQ.sendPrivateMsg(fromQQ, CC.at(fromQQ) + "\n" + output);
 		}
 		
@@ -582,7 +584,8 @@ public class CoolQ extends JcqAppAbstract implements ICQVer, IMsg, IRequest {
 					+ "4. 自动音乐生成器(#m;)(请输入#mhelp来获取音乐生成指南)\n"
 					+ "5. 跑团数据记录器(;)(请输入#trpghelp来获取跑团数据记录器使用指南)\n"
 					+ "6. 骰子(#r 明骰)(#rh 暗骰)(例：#r 1d10+2d12-3d6)\n"
-					+ "7. 跑团聊天记录(#start)(#end <(可选)团名>)";
+					+ "7. 悄悄话(#to.QQ号:消息内容)(例：#to.123456:nm$l)(请私聊)\n"
+					+ "8. 跑团聊天记录(#start)(#end <(可选)团名>)";
 			CQ.sendGroupMsg(fromGroup, CC.at(fromQQ) + "\n" + output);
 		}
 		
